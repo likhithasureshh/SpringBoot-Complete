@@ -1,14 +1,13 @@
-package com.module1.SpringBootBasics;
+package com.module_1.HomeWork;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringBootBasicsApplicationTests {
+class HomeWorkApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("Likitha testing");
 	}
 
 }
