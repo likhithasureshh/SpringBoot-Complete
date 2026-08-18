@@ -3,6 +3,7 @@ package com.module_2.SpringBoot2.controller;
 import com.module_2.SpringBoot2.dtos.EmployeeDto;
 import com.module_2.SpringBoot2.entities.EmployeeEntity;
 import com.module_2.SpringBoot2.repositories.EmployeeRepository;
+import com.module_2.SpringBoot2.services.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
@@ -14,23 +15,24 @@ import java.util.List;
 @RequestMapping("/employee")
 @RequiredArgsConstructor
 public class EmployeeController {
-    private final EmployeeRepository employeeRepository;
+
+    private final EmployeeService employeeService;
     @GetMapping(path = "/{employeeId}")
-    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id)
+    public EmployeeDto getEmployeeById(@PathVariable(name = "employeeId") Long id)
     {
-       return employeeRepository.findById(id).orElse(null);
+       return employeeService.getEmployeeById(id);
     }
 
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees()
+    public List<EmployeeDto> getAllEmployees()
     {
-       return employeeRepository.findAll();
+       return employeeService.getAllEmployees();
     }
 
     @PostMapping
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity employeeEntity)
+    public EmployeeDto createNewEmployee(@RequestBody EmployeeDto employeeDto)
     {
-        return employeeRepository.save(employeeEntity);
+        return employeeService.createNewEmployee(employeeDto);
     }
 
 
