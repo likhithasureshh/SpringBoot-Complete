@@ -1,35 +1,37 @@
 package com.module_2.SpringBoot2.controller;
 
 import com.module_2.SpringBoot2.dtos.EmployeeDto;
+import com.module_2.SpringBoot2.entities.EmployeeEntity;
+import com.module_2.SpringBoot2.repositories.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
+@RequiredArgsConstructor
 public class EmployeeController {
+    private final EmployeeRepository employeeRepository;
     @GetMapping(path = "/{employeeId}")
-    public EmployeeDto getEmployeeById(@PathVariable(name = "employeeId") Long id)
+    public EmployeeEntity getEmployeeById(@PathVariable(name = "employeeId") Long id)
     {
-        return new EmployeeDto(id,"Likitha",24,true, LocalDate.of(2026,8,18));
+       return employeeRepository.findById(id).orElse(null);
     }
 
     @GetMapping
-    public String getEmployeeByAge(@RequestParam(required = false) Integer age,
-                                   @RequestParam(required = false) String sortBy)
+    public List<EmployeeEntity> getAllEmployees()
     {
-        return "Hi my age is "+age+" im sorted by "+sortBy;
+       return employeeRepository.findAll();
     }
 
     @PostMapping
-    public String post()
+    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity employeeEntity)
     {
-        return "Hi from post!";
+        return employeeRepository.save(employeeEntity);
     }
 
-    @PutMapping
-    public String put()
-    {
-        return "Hi from put!";
-    }
+
 }
