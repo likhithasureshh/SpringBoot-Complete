@@ -27,9 +27,8 @@ public class EmployeeController {
     @GetMapping(path = "/{employeeId}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long employeeId)
     {
-        Optional<EmployeeDto> employeeDtoOptional = employeeService.getEmployeeById(employeeId);
-        return employeeDtoOptional.map(employeeDto -> ResponseEntity.ok(employeeDto))
-                .orElse(ResponseEntity.notFound().build());
+        EmployeeDto employeeDtoOptional = employeeService.getEmployeeById(employeeId);
+        return ResponseEntity.ok(employeeDtoOptional);
     }
 
     @GetMapping

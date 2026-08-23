@@ -1,5 +1,6 @@
 package com.module_2.SpringBoot2.services;
 
+import com.module_2.SpringBoot2.advices.exceptions.ResourceNotFoundException;
 import com.module_2.SpringBoot2.dtos.EmployeeDto;
 import com.module_2.SpringBoot2.entities.EmployeeEntity;
 import com.module_2.SpringBoot2.repositories.EmployeeRepository;
@@ -20,10 +21,11 @@ import java.util.stream.Collectors;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
-    public Optional<EmployeeDto> getEmployeeById(Long employeeId)
+    public EmployeeDto getEmployeeById(Long employeeId)
     {
         Optional<EmployeeEntity> employeeEntity = employeeRepository.findById(employeeId);
-        return employeeEntity.map(employeeEntity1 -> modelMapper.map(employeeEntity1,EmployeeDto.class));
+        return employeeEntity.map(employeeEntity1 -> modelMapper.map(employeeEntity1,EmployeeDto.class))
+                .orElseThrow(()-> new ResourceNotFoundException("Employee not found with id : "+employeeId));
     }
 
     public List<EmployeeDto> getAllEmployees()
@@ -42,7 +44,8 @@ public class EmployeeService {
 
     public EmployeeDto updateEntireEmployeeById(EmployeeDto employeeDto, Long employeeId)
     {
-       EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElse(null);
+       EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElseThrow(()->
+               new ResourceNotFoundException("Employee not found with id : "+employeeId));
 
        if(employeeEntity == null)
        {
@@ -58,27 +61,25 @@ public class EmployeeService {
 
     }
     //helper functions
-    public boolean existsById(Long employeeId)
+    public void existsById(Long employeeId)
     {
-        return employeeRepository.existsById(employeeId);
+        if(!employeeRepository.existsById(employeeId))
+        {
+            throw new ResourceNotFoundException("Employee not found with id :"+employeeId);
+        }
+
     }
 
     public Boolean deleteEmployeeById(Long employeeId)
     {
-        if(!existsById(employeeId))
-        {
-            return false;
-        }
+        existsById(employeeId);
         employeeRepository.deleteById(employeeId);
         return true;
     }
 
     public EmployeeDto updateFewFields(Long employeeId, Map<String, Object> updates)
     {
-        if(!existsById(employeeId))
-        {
-            return null;
-        }
+         existsById(employeeId);
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).get();
         updates.forEach((field,value)->
         {
