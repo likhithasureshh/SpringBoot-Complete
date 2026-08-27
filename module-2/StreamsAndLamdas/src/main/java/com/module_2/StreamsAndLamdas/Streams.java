@@ -12,6 +12,7 @@ public class Streams {
         Map<String,Integer> list=fruits.stream()
                 .sorted()
                 .collect(
+
                         Collectors.toMap(
                                 fruit -> fruit,
                                 fruit ->fruit.length()
