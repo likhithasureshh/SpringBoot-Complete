@@ -1,8 +1,7 @@
 package com.module_3.SpringDataJpa.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,7 +9,7 @@ import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+@Builder
 @Entity
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -28,6 +27,8 @@ import java.time.LocalDateTime;
                 }
 
         )
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
