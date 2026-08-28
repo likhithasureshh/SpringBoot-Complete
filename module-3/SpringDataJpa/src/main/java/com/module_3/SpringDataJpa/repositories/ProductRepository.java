@@ -28,6 +28,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     //Product findByPriceAndTitle(BigDecimal bigDecimal, String guddu);
 
-    @Query("select e from Product e where e.price=:price and e.title=:title")
-    Product findByPriceAndTitle(BigDecimal price,String title);
+    @Query("select e.title from Product e where e.price=:price and e.title=:title")
+     String findByPriceAndTitle(BigDecimal price,String title);
 }

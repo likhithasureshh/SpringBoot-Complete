@@ -53,8 +53,8 @@ class SpringDataJpaApplicationTests {
 //		System.out.println(products);
 
 //		List<Product> products = productRepository.findByTitleContainingIgnoreCase("guDdu");
-		Product products = productRepository.findByPriceAndTitle(BigDecimal.valueOf(100),"guddu");
-		System.out.println(products);
+		String s = productRepository.findByPriceAndTitle(BigDecimal.valueOf(100),"guddu");
+		System.out.println(s);
 	}
 
 }
