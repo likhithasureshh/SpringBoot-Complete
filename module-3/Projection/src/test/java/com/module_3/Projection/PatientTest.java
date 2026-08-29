@@ -4,6 +4,7 @@ import com.module_3.Projection.projection.CNewProjection;
 import com.module_3.Projection.projection.CProjection;
 import com.module_3.Projection.projection.IProjection;
 import com.module_3.Projection.repositories.PatientRepositories;
+import com.module_3.Projection.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,9 @@ import java.util.List;
 public class PatientTest {
     @Autowired
     PatientRepositories patientRepositories;
+
+    @Autowired
+    PatientService patientService;
 
     @Test
     void test()
@@ -48,7 +52,8 @@ public class PatientTest {
     @Test
     void test4()
     {
-        int count = patientRepositories.updateRow(1L,"Anuj");
-        System.out.println(count);
+//        int count = patientRepositories.updateRow(1L,"Anuj");
+//        System.out.println(count);
+        patientService.test();
     }
 }
