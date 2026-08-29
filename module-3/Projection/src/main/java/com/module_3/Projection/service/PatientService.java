@@ -18,6 +18,6 @@ public class PatientService {
         Patient p2 = patientRepositories.findById(1L).orElseThrow();
         System.out.println(p1==p2);
         System.out.println(p1 + " "+p2);
+        p1.setName("Random name");
     }
-
 }
