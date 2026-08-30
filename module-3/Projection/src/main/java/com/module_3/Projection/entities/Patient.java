@@ -2,10 +2,7 @@ package com.module_3.Projection.entities;
 
 import com.module_3.Projection.enums.BloodGroup;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -18,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +28,12 @@ public class Patient {
     Integer age;
     @CreationTimestamp
     LocalDateTime createdAt;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true,name = "patient_insurance")
+    @ToString.Exclude
     private Insurance insurance;
 
     @OneToMany(mappedBy = "patient")
+    @ToString.Exclude
     Set<Appointment> appointmentSet = new HashSet<>();
 }

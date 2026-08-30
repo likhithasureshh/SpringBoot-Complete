@@ -1,10 +1,7 @@
 package com.module_3.Projection.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Insurance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +23,7 @@ public class Insurance {
     LocalDateTime createdAt;
 
     @OneToOne(mappedBy = "insurance")
+    @ToString.Exclude
     private Patient patient;
 
 }

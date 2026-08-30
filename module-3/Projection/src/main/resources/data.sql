@@ -42,3 +42,16 @@ VALUES ('Neha Kapoor', 'neha@gmail.com', 'B_NEGATIVE', 'Female', 30);
 
 INSERT INTO patient (name, email, blood_group, gender, age)
 VALUES ('Manoj Joshi', 'manoj@gmail.com', 'AB_NEGATIVE', 'Male', 40);
+
+INSERT INTO doctor (name, specialization, email, created_at)
+VALUES
+    ('Dr. Rajesh Kumar', 'Cardiology', 'rajesh.kumar@gmail.com', '2025-01-10 09:30:00'),
+    ('Dr. Priya Sharma', 'Neurology', 'priya.sharma@gmail.com', '2025-01-15 10:00:00'),
+    ('Dr. Arjun Rao', 'Orthopedics', 'arjun.rao@gmail.com', '2025-02-01 11:15:00'),
+    ('Dr. Sneha Reddy', 'Pediatrics', 'sneha.reddy@gmail.com', '2025-02-10 09:45:00'),
+    ('Dr. Kiran Patel', 'Dermatology', 'kiran.patel@gmail.com', '2025-02-20 14:00:00'),
+    ('Dr. Ananya Mehta', 'Gynecology', 'ananya.mehta@gmail.com', '2025-03-05 10:30:00'),
+    ('Dr. Vikram Singh', 'General Medicine', 'vikram.singh@gmail.com', '2025-03-12 12:00:00'),
+    ('Dr. Neha Kapoor', 'Oncology', 'neha.kapoor@gmail.com', '2025-03-20 09:00:00'),
+    ('Dr. Rahul Verma', 'ENT', 'rahul.verma@gmail.com', '2025-04-01 15:30:00'),
+    ('Dr. Meera Nair', 'Ophthalmology', 'meera.nair@gmail.com', '2025-04-10 11:00:00');

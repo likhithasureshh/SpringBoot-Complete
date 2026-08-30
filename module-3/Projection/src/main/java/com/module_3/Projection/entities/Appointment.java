@@ -1,10 +1,7 @@
 package com.module_3.Projection.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.print.Doc;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,11 +20,13 @@ public class Appointment {
     LocalDateTime appointmentTime;
     String reason;
     String status;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
+            @ToString.Exclude
     Patient patient;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
     @JoinColumn(nullable = false )
     Doctor doctor;
 
