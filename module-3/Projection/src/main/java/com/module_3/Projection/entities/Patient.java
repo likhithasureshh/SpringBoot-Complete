@@ -28,12 +28,10 @@ public class Patient {
     Integer age;
     @CreationTimestamp
     LocalDateTime createdAt;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = false,fetch = FetchType.EAGER)
     @JoinColumn(unique = true,name = "patient_insurance")
-    @ToString.Exclude
     private Insurance insurance;
 
-    @OneToMany(mappedBy = "patient")
-    @ToString.Exclude
+    @OneToMany(mappedBy = "patient",fetch = FetchType.EAGER)
     Set<Appointment> appointmentSet = new HashSet<>();
 }

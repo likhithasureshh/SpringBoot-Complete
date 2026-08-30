@@ -1,5 +1,6 @@
 package com.module_3.Projection;
 
+import com.module_3.Projection.entities.Patient;
 import com.module_3.Projection.projection.CNewProjection;
 import com.module_3.Projection.projection.CProjection;
 import com.module_3.Projection.projection.IProjection;
@@ -56,6 +57,18 @@ public class PatientTest {
 //        System.out.println(count);
         patientService.test();
     }
+
+    @Test
+    void test5()
+    {
+        List<Patient> patientList = patientRepositories.getAllPatients();
+        for(Patient p : patientList)
+        {
+            System.out.println(p);
+        }
+
+    }
+
 
 
 }

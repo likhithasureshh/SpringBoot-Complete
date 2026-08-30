@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Insurance {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String policyNumber;
     String provider;

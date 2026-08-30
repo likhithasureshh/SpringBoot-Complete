@@ -1,5 +1,6 @@
 package com.module_3.Projection.service;
 
+import com.module_3.Projection.entities.Insurance;
 import com.module_3.Projection.entities.Patient;
 import com.module_3.Projection.repositories.PatientRepositories;
 import jakarta.transaction.Transactional;
@@ -28,4 +29,5 @@ public class PatientService {
         patientRepositories.deleteById(patientId);
         return patient;
     }
+
 }

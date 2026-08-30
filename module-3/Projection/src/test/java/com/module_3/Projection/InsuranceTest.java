@@ -28,26 +28,32 @@ public class InsuranceTest {
      @Test
      public void test()
      {
-//         Insurance insurance = Insurance.builder()
-//                 .provider("HDFC")
-//                 .validUntil(LocalDate.of(2027,1,1))
-//                 .policyNumber("GUDDU34566")
-//                 .build();
-//         Insurance insurance1 = insuranceService.assignInsuranceToPatient(insurance,1L);
-//        // System.out.println(insurance1);
+         Insurance insurance = Insurance.builder()
+                 .provider("HDFC")
+                 .validUntil(LocalDate.of(2027,1,1))
+                 .policyNumber("GUDDU34566")
+                 .build();
+         Insurance insurance1 = insuranceService.assignInsuranceToPatient(insurance,1L);
+         System.out.println(insurance1);
 //         Patient patient =patientService.deletePatientWithInsurance(1L);
 //         System.out.println(patient);
 
-         Appointment appointment = Appointment.builder()
-                 .appointmentTime(LocalDateTime.now())
-                 .status("COLD")
-                 .reason("FCGVYHBJK")
-                 .build();
-         Appointment appointment1 = appointmentService.saveAppointment(appointment,1L,1L);
-         //System.out.println(appointment1);
-         Appointment appointment2 =appointmentService.deleteAppointment(1L);
-         System.out.println(appointment2);
+//         Appointment appointment = Appointment.builder()
+//                 .appointmentTime(LocalDateTime.now())
+//                 .status("COLD")
+//                 .reason("FCGVYHBJK")
+//                 .build();
+//         Appointment appointment1 = appointmentService.saveAppointment(appointment,1L,1L);
+//         //System.out.println(appointment1);
+//         Appointment appointment2 =appointmentService.deleteAppointment(1L);
+//         System.out.println(appointment2);
 
+     }
+     @Test
+     void test3()
+     {
+         Patient patient =insuranceService.updateInsurance(1L);
+         System.out.println(patient);
      }
 
 }

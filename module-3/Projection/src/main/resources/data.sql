@@ -55,3 +55,24 @@ VALUES
     ('Dr. Neha Kapoor', 'Oncology', 'neha.kapoor@gmail.com', '2025-03-20 09:00:00'),
     ('Dr. Rahul Verma', 'ENT', 'rahul.verma@gmail.com', '2025-04-01 15:30:00'),
     ('Dr. Meera Nair', 'Ophthalmology', 'meera.nair@gmail.com', '2025-04-10 11:00:00');
+
+
+INSERT INTO insurance (id, policy_number, provider, valid_until, created_at)
+VALUES
+    (nextval('insurance_seq'), 'POL1001', 'Star Health Insurance', '2027-01-15', '2025-01-10 10:00:00');
+
+INSERT INTO insurance (id, policy_number, provider, valid_until, created_at)
+VALUES
+    (nextval('insurance_seq'), 'POL1002', 'HDFC ERGO', '2027-02-20', '2025-01-15 11:30:00');
+
+INSERT INTO insurance (id, policy_number, provider, valid_until, created_at)
+VALUES
+    (nextval('insurance_seq'), 'POL1003', 'ICICI Lombard', '2027-03-10', '2025-02-01 09:45:00');
+
+INSERT INTO insurance (id, policy_number, provider, valid_until, created_at)
+VALUES
+    (nextval('insurance_seq'), 'POL1004', 'Bajaj Allianz', '2027-04-25', '2025-02-10 14:15:00');
+
+INSERT INTO insurance (id, policy_number, provider, valid_until, created_at)
+VALUES
+    (nextval('insurance_seq'), 'insurance_seq', 'Niva Bupa', '2027-05-18', '2025-02-20 12:00:00');

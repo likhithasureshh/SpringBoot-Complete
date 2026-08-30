@@ -20,4 +20,13 @@ public class InsuranceService {
         return insurance;
     }
 
+    @Transactional
+    public Patient updateInsurance(Long patientId)
+    {
+        Patient patient = patientRepositories.findById(patientId).orElseThrow();
+        patient.setInsurance(null);
+        return patient;
+
+    }
+
 }
