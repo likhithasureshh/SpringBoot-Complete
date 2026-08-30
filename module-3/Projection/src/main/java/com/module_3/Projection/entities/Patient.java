@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -28,4 +30,10 @@ public class Patient {
     Integer age;
     @CreationTimestamp
     LocalDateTime createdAt;
+    @OneToOne
+    @JoinColumn(unique = true,name = "patient_insurance")
+    private Insurance insurance;
+
+    @OneToMany(mappedBy = "patient")
+    Set<Appointment> appointmentSet = new HashSet<>();
 }
