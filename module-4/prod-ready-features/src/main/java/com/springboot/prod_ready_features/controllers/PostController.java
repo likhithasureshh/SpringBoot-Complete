@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/post")
+@RequestMapping("/posts")
 @FieldDefaults(makeFinal = true,level = AccessLevel.PRIVATE)
 public class PostController {
     PostService postService;
@@ -32,6 +32,12 @@ public class PostController {
     public PostDTO createNewPosts(@RequestBody PostDTO postDTO)
     {
         return postService.createNewPosts(postDTO);
+    }
+
+    @PutMapping(path = "/{postId}")
+    public PostDTO updatePostById(@RequestBody PostDTO postDTO,@PathVariable Long postId)
+    {
+        return postService.updatePostById(postDTO,postId);
     }
 
 }

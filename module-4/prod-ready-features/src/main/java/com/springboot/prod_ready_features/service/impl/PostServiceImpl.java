@@ -42,5 +42,14 @@ public class PostServiceImpl implements PostService {
         return modelMapper.map(postRepository.save(modelMapper.map(postDTO,PostEntity.class)),PostDTO.class);
     }
 
+    @Override
+    public PostDTO updatePostById(PostDTO postDTO, Long postId) {
+       PostEntity postEntity = postRepository.findById(postId)
+               .orElseThrow(()-> new RuntimeException("Posts does not exists with id : "+postId));
+       postEntity.setName(postDTO.getName());
+       postEntity.setDescription(postDTO.getDescription());
+       return modelMapper.map(postRepository.save(postEntity),PostDTO.class);
+    }
+
 
 }

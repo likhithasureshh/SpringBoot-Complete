@@ -3,6 +3,8 @@ package com.springboot.prod_ready_features.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.envers.Audited;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Getter
@@ -11,7 +13,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Table(name = "posts")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PostEntity {
+@Audited
+public class PostEntity extends AuditEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
