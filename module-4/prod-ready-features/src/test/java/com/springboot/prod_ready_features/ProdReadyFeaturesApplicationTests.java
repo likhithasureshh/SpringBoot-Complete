@@ -23,7 +23,7 @@ class ProdReadyFeaturesApplicationTests {
 	{
 		EmployeeDto employeeDto = EmployeeDto
 				.builder()
-				.age(19)
+				.age(2)
 				.name("Likitha")
 				.email("Likitha@gmail.com")
 				.salary(1000.00)
