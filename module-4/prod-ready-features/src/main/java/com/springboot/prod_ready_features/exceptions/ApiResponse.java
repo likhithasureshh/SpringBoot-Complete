@@ -1,4 +1,4 @@
-package com.module_2.SpringBoot2.advices;
+package com.springboot.prod_ready_features.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiResponse<T> {
+
     LocalDateTime timeStamp;
     T data;
     ApiError error;
