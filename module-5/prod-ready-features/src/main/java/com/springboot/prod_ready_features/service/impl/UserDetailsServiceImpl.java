@@ -1,5 +1,6 @@
 package com.springboot.prod_ready_features.service.impl;
 
+import com.springboot.prod_ready_features.entities.User;
 import com.springboot.prod_ready_features.exceptions.ResourceNotFoundException;
 import com.springboot.prod_ready_features.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
                 .orElseThrow(()-> new ResourceNotFoundException("User not found with email "+username));
+    }
+
+    public User getUserByUserId(Long userId)
+    {
+        return userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User is not found with id: "+userId));
     }
 }
