@@ -15,11 +15,6 @@ class ProdReadyFeaturesApplicationTests {
 	@Test
 	void generateToken()
 	{
-		User user = new User(4L,"liki@gmail.com","123");
 
-		String token = jwtService.generateToken(user);
-		System.out.println(token);
-
-		System.out.println(jwtService.getUserId(token));
 	}
 }
