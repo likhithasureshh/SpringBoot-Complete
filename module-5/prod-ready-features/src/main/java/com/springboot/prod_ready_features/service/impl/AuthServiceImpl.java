@@ -7,6 +7,7 @@ import com.springboot.prod_ready_features.dtos.UserDTO;
 import com.springboot.prod_ready_features.entities.User;
 import com.springboot.prod_ready_features.repositories.UserRepository;
 import com.springboot.prod_ready_features.service.AuthService;
+import com.springboot.prod_ready_features.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailsService;
+    private final SessionService sessionService;
     @Override
     public UserDTO signUp(SignUpDTO signUpDTO) {
         Optional<User> user = userRepository.findByEmail(signUpDTO.getEmail());
@@ -49,6 +51,7 @@ public class AuthServiceImpl implements AuthService {
         User user = (User) authentication.getPrincipal();
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
+        sessionService.generateSessionForUser(refreshToken,user);
         return new LoginResponseDTO(user.getId(),accessToken,refreshToken);
 
     }
@@ -56,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponseDTO refresh(String refreshToken) {
         Long userId = jwtService.getUserId(refreshToken);
+        sessionService.validateSession(refreshToken);
         User user = userDetailsService.getUserByUserId(userId);
         String accessToken = jwtService.generateAccessToken(user);
         return new LoginResponseDTO(userId,accessToken,refreshToken);

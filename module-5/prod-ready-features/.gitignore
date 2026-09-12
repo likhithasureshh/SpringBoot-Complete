@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/module-5/prod-ready-features/src/main/resources/application.yml
