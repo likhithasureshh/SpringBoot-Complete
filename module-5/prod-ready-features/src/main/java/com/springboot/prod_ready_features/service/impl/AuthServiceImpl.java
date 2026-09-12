@@ -1,6 +1,7 @@
 package com.springboot.prod_ready_features.service.impl;
 
 import com.springboot.prod_ready_features.dtos.LoginDTO;
+import com.springboot.prod_ready_features.dtos.LoginResponseDTO;
 import com.springboot.prod_ready_features.dtos.SignUpDTO;
 import com.springboot.prod_ready_features.dtos.UserDTO;
 import com.springboot.prod_ready_features.entities.User;
@@ -25,6 +26,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserDetailsServiceImpl userDetailsService;
     @Override
     public UserDTO signUp(SignUpDTO signUpDTO) {
         Optional<User> user = userRepository.findByEmail(signUpDTO.getEmail());
@@ -40,11 +42,22 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginDTO loginDTO) {
+    public LoginResponseDTO login(LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getEmail(),loginDTO.getPassword())
         );
         User user = (User) authentication.getPrincipal();
-        return jwtService.generateToken(user);
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+        return new LoginResponseDTO(user.getId(),accessToken,refreshToken);
+
+    }
+
+    @Override
+    public LoginResponseDTO refresh(String refreshToken) {
+        Long userId = jwtService.getUserId(refreshToken);
+        User user = userDetailsService.getUserByUserId(userId);
+        String accessToken = jwtService.generateAccessToken(user);
+        return new LoginResponseDTO(userId,accessToken,refreshToken);
     }
 }
