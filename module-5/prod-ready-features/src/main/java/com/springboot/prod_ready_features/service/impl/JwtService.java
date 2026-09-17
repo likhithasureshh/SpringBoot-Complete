@@ -30,7 +30,7 @@ public class JwtService {
                 .claim("ROLES", List.of("ADMIN","USER"))
                 .signWith(getSecretKey())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+  1000*20))
+                .expiration(new Date(System.currentTimeMillis()+  1000*60*5))
                 .compact();
     }
     public String generateRefreshToken(User user)
@@ -39,7 +39,7 @@ public class JwtService {
                 .subject(user.getId().toString())
                 .signWith(getSecretKey())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+  1000*60))
+                .expiration(new Date(System.currentTimeMillis()+  1000*60*10))
                 .compact();
     }
 
