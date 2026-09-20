@@ -1,5 +1,6 @@
 package com.spring_ai.SpringAi.configs;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -29,4 +30,6 @@ public class AIConfig {
                 .maxMessages(10)
                 .build();
     }
+
+
 }
