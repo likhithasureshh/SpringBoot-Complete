@@ -1,8 +1,14 @@
 package com.spring_ai.SpringAi.service;
 
+import com.spring_ai.SpringAi.advisors.TokenUsageAdvisor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
@@ -24,9 +30,46 @@ public class RAGService {
     private final ChatClient chatClient;
     private final EmbeddingModel embeddingModel;
     private final VectorStore vectorStore;
+    private final ChatMemory chatMemory;
 
     @Value("classpath:faq.pdf")
     private Resource resource;
+
+    public String askAiWithAdvisors(String prompt,String userId)
+    {
+        return chatClient.prompt()
+                .system("""
+                You are an AI assistance with name Cody,
+                Always greet the user with ur name and their name if u know
+                Reply in the friendly conversational tone
+                """)
+                .user(prompt)
+                .advisors(
+                        a-> a.param(ChatMemory.CONVERSATION_ID,userId)
+                                .advisors(
+                                        //new SafeGuardAdvisor(List.of("Politics","Gaming")),
+                                        VectorStoreChatMemoryAdvisor.builder(vectorStore)
+                                                .build(),
+                                        MessageChatMemoryAdvisor.builder(chatMemory)
+                                             .build()
+                                                ,
+                                        QuestionAnswerAdvisor.builder(vectorStore)
+                                                .searchRequest(
+                                                        SearchRequest
+                                                                .builder()
+                                                                .topK(4)
+                                                                .similarityThreshold(0.5)
+                                                                .filterExpression("file_name == 'faq.pdf'")
+                                                                .query(prompt)
+                                                                .build()
+                                                )
+                                                .build(),
+                                        new TokenUsageAdvisor()
+                                )
+                )
+                .call()
+                .content();
+    }
 
     public String askAI(String prompt)
     {

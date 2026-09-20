@@ -18,10 +18,10 @@ class RAGServiceTest {
     }
 
     @Test
-    void testAskAi()
+    void testAskAiWithAdvisors()
     {
         //String res = ragService.askAI("Why am i facing issues with discord and not able to connect to it");
-        String res = ragService.askAI("Where is America");
+        String res = ragService.askAiWithAdvisors("what is your views on Gaming?","liki");
         System.out.println(res);
     }
 }
