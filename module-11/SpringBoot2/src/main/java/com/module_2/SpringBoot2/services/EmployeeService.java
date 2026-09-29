@@ -43,14 +43,14 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    @CachePut(cacheNames = "CACHE_NAME",key = "#result.id")
+    @CachePut(cacheNames = CACHE_NAME,key = "#result.id")
     public EmployeeDto createNewEmployee(EmployeeDto employeeDto)
     {
         EmployeeEntity employeeEntity = modelMapper.map(employeeDto,EmployeeEntity.class);
         return modelMapper.map(employeeRepository.save(employeeEntity),EmployeeDto.class);
     }
 
-    @CachePut(cacheNames = "CACHE_NAME",key = "#employeeId")
+    @CachePut(cacheNames = CACHE_NAME,key = "#employeeId")
     public EmployeeDto updateEntireEmployeeById(EmployeeDto employeeDto, Long employeeId)
     {
        EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElseThrow(()->
