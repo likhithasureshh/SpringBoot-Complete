@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final ModelMapper modelMapper;
-
+    private final SalaryServiceImpl salaryService;
     private final String CACHE_NAME = "employees";
 
     @Cacheable(cacheNames = CACHE_NAME,key = "#employeeId")
@@ -44,10 +45,13 @@ public class EmployeeService {
     }
 
     @CachePut(cacheNames = CACHE_NAME,key = "#result.id")
+    @Transactional
     public EmployeeDto createNewEmployee(EmployeeDto employeeDto)
     {
         EmployeeEntity employeeEntity = modelMapper.map(employeeDto,EmployeeEntity.class);
-        return modelMapper.map(employeeRepository.save(employeeEntity),EmployeeDto.class);
+        EmployeeEntity createNewEmployee = employeeRepository.save(employeeEntity);
+        salaryService.createSalaryAccount(createNewEmployee);
+        return modelMapper.map(createNewEmployee,EmployeeDto.class);
     }
 
     @CachePut(cacheNames = CACHE_NAME,key = "#employeeId")

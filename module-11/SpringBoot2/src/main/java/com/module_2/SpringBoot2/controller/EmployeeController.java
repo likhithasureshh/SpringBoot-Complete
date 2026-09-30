@@ -2,8 +2,10 @@ package com.module_2.SpringBoot2.controller;
 
 import com.module_2.SpringBoot2.dtos.EmployeeDto;
 import com.module_2.SpringBoot2.entities.EmployeeEntity;
+import com.module_2.SpringBoot2.entities.SalaryEntity;
 import com.module_2.SpringBoot2.repositories.EmployeeRepository;
 import com.module_2.SpringBoot2.services.EmployeeService;
+import com.module_2.SpringBoot2.services.SalaryServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -23,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EmployeeController {
     private final EmployeeService employeeService;
+    private final SalaryServiceImpl salaryService;
 
     @GetMapping(path = "/{employeeId}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long employeeId)
@@ -71,6 +74,12 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(employeeDto);
+    }
+
+    @PutMapping("/incrementBalance/{id}")
+    public ResponseEntity<SalaryEntity> incrementBalance(@PathVariable Long id)
+    {
+        return ResponseEntity.ok(salaryService.incrementBalance(id));
     }
 
 
