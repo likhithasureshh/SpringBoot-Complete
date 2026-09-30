@@ -1,6 +1,7 @@
 package com.module_2.SpringBoot2.advices;
 
 import com.module_2.SpringBoot2.advices.exceptions.ResourceNotFoundException;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,15 +23,15 @@ public class GlobalExceptionHandler {
         return generateResponseFromError(apiError);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(Exception exception)
-    {
-        ApiError apiError = ApiError.builder()
-                .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-                .errorMessage(exception.getMessage())
-                .build();
-        return generateResponseFromError(apiError);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ApiResponse<?>> handleException(Exception exception)
+//    {
+//        ApiError apiError = ApiError.builder()
+//                .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .errorMessage(exception.getMessage())
+//                .build();
+//        return generateResponseFromError(apiError);
+//    }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -51,5 +52,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<?>> generateResponseFromError(ApiError apiError)
     {
         return new ResponseEntity<>(new ApiResponse<>(apiError),apiError.getHttpStatus());
+    }
+
+    @ExceptionHandler(StaleObjectStateException.class)
+    public ResponseEntity<ApiResponse<?>> handleStaleObjectStateException(StaleObjectStateException exception)
+    {
+        ApiError apiError = ApiError
+                .builder()
+                .httpStatus(HttpStatus.CONFLICT)
+                .errorMessage("Stale Object\n")
+                .build();
+        return generateResponseFromError(apiError);
     }
 }

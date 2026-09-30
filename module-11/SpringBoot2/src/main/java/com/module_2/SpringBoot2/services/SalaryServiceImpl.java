@@ -28,7 +28,7 @@ public class SalaryServiceImpl {
          salaryRepository.save(salaryEntity);
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional
     public SalaryEntity incrementBalance(Long id) {
         SalaryEntity salaryEntity = salaryRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("salary Account Not found"));

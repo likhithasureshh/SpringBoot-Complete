@@ -18,7 +18,10 @@ public class SalaryEntity {
     private Long id;
     private BigDecimal balance;
 
-    @OneToOne
+    @Version
+    private Long version;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private EmployeeEntity employeeEntity;
 }
