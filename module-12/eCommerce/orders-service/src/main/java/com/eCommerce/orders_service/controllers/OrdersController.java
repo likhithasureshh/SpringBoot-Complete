@@ -5,10 +5,7 @@ import com.eCommerce.orders_service.dtos.OrderRequestDto;
 import com.eCommerce.orders_service.services.OrdersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +20,12 @@ public class OrdersController {
     public String helloOrders()
     {
         return "Hello from Orders-Service";
+    }
+
+    @PostMapping("/{create-orders}")
+    public ResponseEntity<OrderRequestDto> createOrders(@RequestBody OrderRequestDto orderRequestDto)
+    {
+        return ResponseEntity.ok(ordersService.createOrders(orderRequestDto));
     }
     @GetMapping
     public ResponseEntity<List<OrderRequestDto>> getAllOrders()

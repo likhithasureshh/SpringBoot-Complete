@@ -1,5 +1,7 @@
 package com.eCommerce.inventory_service.controller;
 
+import com.eCommerce.inventory_service.clients.OrdersFeignClients;
+import com.eCommerce.inventory_service.dtos.OrderRequestsDto;
 import com.eCommerce.inventory_service.dtos.ProductDto;
 import com.eCommerce.inventory_service.services.ProductsService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,16 +21,18 @@ public class ProductsController {
     private final ProductsService productsService;
     private final DiscoveryClient discoveryClient;
     private final RestClient restClient;
+    private final OrdersFeignClients ordersFeignClients;
 
 
     @GetMapping("/fetchOrders")
     public String fetchFromOrders(HttpServletRequest httpServletRequest)
     {
-        ServiceInstance orderService = discoveryClient.getInstances("orders-service").getFirst();
-        return restClient.get()
-                .uri(orderService.getUri()+"/orders/core/helloOrders")
-                .retrieve()
-                .body(String.class);
+//        ServiceInstance orderService = discoveryClient.getInstances("orders-service").getFirst();
+//        return restClient.get()
+//                .uri(orderService.getUri()+"/orders/core/helloOrders")
+//                .retrieve()
+//                .body(String.class);
+        return ordersFeignClients.fetchOrders();
     }
 
     @GetMapping
@@ -41,5 +45,11 @@ public class ProductsController {
     private ResponseEntity<ProductDto> getProductById(@PathVariable Long id)
     {
         return ResponseEntity.ok(productsService.getProductById(id));
+    }
+
+    @PutMapping("/reduce-stocks")
+    public ResponseEntity<Double> reduceStocks(@RequestBody OrderRequestsDto orderRequestsDto)
+    {
+        return ResponseEntity.ok(productsService.reduceStocks(orderRequestsDto));
     }
 }

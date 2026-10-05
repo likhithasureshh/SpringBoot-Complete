@@ -8,4 +8,5 @@ import java.util.List;
 public class OrderRequestDto {
     private Long id;
     private Double totalPrice;
+    private List<OrderItemRequestDto> items;
 }
