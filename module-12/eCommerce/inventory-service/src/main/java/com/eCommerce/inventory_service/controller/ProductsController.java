@@ -2,6 +2,7 @@ package com.eCommerce.inventory_service.controller;
 
 import com.eCommerce.inventory_service.dtos.ProductDto;
 import com.eCommerce.inventory_service.services.ProductsService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -21,11 +22,11 @@ public class ProductsController {
 
 
     @GetMapping("/fetchOrders")
-    public String fetchFromOrders()
+    public String fetchFromOrders(HttpServletRequest httpServletRequest)
     {
         ServiceInstance orderService = discoveryClient.getInstances("orders-service").getFirst();
         return restClient.get()
-                .uri(orderService.getUri()+"/api/v1/orders/helloOrders")
+                .uri(orderService.getUri()+"/orders/core/helloOrders")
                 .retrieve()
                 .body(String.class);
     }
