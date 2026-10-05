@@ -7,6 +7,9 @@ import com.eCommerce.orders_service.dtos.OrderItemRequestDto;
 import com.eCommerce.orders_service.dtos.OrderRequestDto;
 import com.eCommerce.orders_service.enums.OrderStatus;
 import com.eCommerce.orders_service.repositories.OrdersRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -38,8 +41,12 @@ public class OrdersService {
         return modelMapper.map(orders, OrderRequestDto.class);
     }
 
+//    @Retry(name = "inventoryRetry",fallbackMethod = "createOrdersFallBack")
+//    @RateLimiter(name = "inventoryRateLimiter",fallbackMethod = "createOrdersFallBack")
+    @CircuitBreaker(name = "inventoryCircuitBreaker",fallbackMethod = "createOrdersFallBack")
     public OrderRequestDto createOrders(OrderRequestDto orderRequestDto)
     {
+        log.info("createOrders execution started");
         Double totalPrice = inventoryFeignClients.reduceStocks(orderRequestDto);
         Orders orders = modelMapper.map(orderRequestDto,Orders.class);
         for(OrderItems orderItems : orders.getOrderItemsList())
@@ -50,5 +57,13 @@ public class OrdersService {
         orders.setTotalPrice(totalPrice);
         Orders savedOrder =ordersRepository.save(orders);
         return modelMapper.map(savedOrder,OrderRequestDto.class);
+    }
+
+
+    public OrderRequestDto createOrdersFallBack(OrderRequestDto orderRequestDto,Throwable throwable)
+    {
+       log.error("FallBack occurred due to : {}",throwable.getLocalizedMessage());
+       return new OrderRequestDto();
+
     }
 }
