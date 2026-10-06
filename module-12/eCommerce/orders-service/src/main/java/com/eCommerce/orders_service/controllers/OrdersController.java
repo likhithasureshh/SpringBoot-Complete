@@ -17,9 +17,9 @@ public class OrdersController {
 
 
     @GetMapping("/helloOrders")
-    public String helloOrders()
+    public String helloOrders(@RequestHeader("X-User-Id") Long userId)
     {
-        return "Hello from Orders-Service";
+        return "Hello from Orders-Service from userId: "+userId;
     }
 
     @PostMapping("/{create-orders}")
