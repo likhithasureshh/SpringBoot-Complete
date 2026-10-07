@@ -4,6 +4,7 @@ import com.eCommerce.orders_service.Entity.Orders;
 import com.eCommerce.orders_service.dtos.OrderRequestDto;
 import com.eCommerce.orders_service.services.OrdersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,14 @@ import java.util.List;
 public class OrdersController {
     private final OrdersService ordersService;
 
+    @Value("${my.variable}")
+    private String envVariable;
+
 
     @GetMapping("/helloOrders")
-    public String helloOrders(@RequestHeader("X-User-Id") Long userId)
+    public String helloOrders()
     {
-        return "Hello from Orders-Service from userId: "+userId;
+        return "Hello from Orders-Service from userId: "+envVariable;
     }
 
     @PostMapping("/{create-orders}")
