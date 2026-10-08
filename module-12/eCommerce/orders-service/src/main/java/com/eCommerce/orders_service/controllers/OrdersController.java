@@ -1,10 +1,11 @@
 package com.eCommerce.orders_service.controllers;
 
-import com.eCommerce.orders_service.Entity.Orders;
+import com.eCommerce.orders_service.configs.FeaturesEnabledConfig;
 import com.eCommerce.orders_service.dtos.OrderRequestDto;
 import com.eCommerce.orders_service.services.OrdersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +16,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrdersController {
     private final OrdersService ordersService;
+    private final FeaturesEnabledConfig featuresEnabledConfig;
 
     @Value("${my.variable}")
     private String envVariable;
 
 
+
+
     @GetMapping("/helloOrders")
     public String helloOrders()
     {
-        return "Hello from Orders-Service from userId: "+envVariable;
+        if(featuresEnabledConfig.getIsFeatureEnabled())
+        {
+            return "feature.enabled thankyou!";
+        }
+        else {
+            return "feature.notenabled thankyou!";
+        }
     }
 
     @PostMapping("/{create-orders}")
